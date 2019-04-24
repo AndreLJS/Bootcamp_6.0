@@ -11,18 +11,24 @@ class SessionController {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      console.log("Usuário não encontrado!");
+      req.flash("error", "Usuário ou senha inválidos");
       return res.redirect("/");
     }
     //Comparação de senha
     if (!(await user.checkPassword(password))) {
-      console.log("Senha incorreta");
+      req.flash("error", "Usuário ou senha inválidos");
 
-      res.redirect("/");
+      return res.redirect("/");
     }
     req.session.user = user;
 
     return res.redirect("/app/dashboard");
+  }
+  destroy(req, res) {
+    req.session.destroy(() => {
+      res.clearCookie("global");
+      return res.redirect("/");
+    });
   }
 }
 
