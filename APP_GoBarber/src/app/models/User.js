@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }
-  );
+  )
+  //Método para comparar senha
+  User.prototype.checkPassword = function(password) {
+    return bcrypt.compare(password, this.password_hash);
+  };
+
   return User;
 };
