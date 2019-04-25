@@ -7,14 +7,9 @@ class AvailableController {
     const date = moment(parseInt(req.query.date));
 
     const appointments = await Appointment.findAll({
-      where: {
-        provider_id: req.params.provider,
-        date: {
-          [Op.between]: [
-            date.startOf("day").format(),
-            date.endOf("day").format()
-          ]
-        }
+      where: { provider_id: req.params.provider },
+      date: {
+        [Op.between]: [date.startOf("day").format(), date.endOf("day").format()]
       }
     });
     const schedule = [
