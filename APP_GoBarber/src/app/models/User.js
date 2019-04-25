@@ -1,8 +1,8 @@
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs')
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "User",
+    'User',
     {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
@@ -15,16 +15,16 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeSave: async user => {
           if (user.password) {
-            user.password_hash = await bcrypt.hash(user.password, 8);
+            user.password_hash = await bcrypt.hash(user.password, 8)
           }
         }
       }
     }
   )
-  //Método para comparar senha
-  User.prototype.checkPassword = function(password) {
-    return bcrypt.compare(password, this.password_hash);
-  };
 
-  return User;
-};
+  User.prototype.checkPassword = function (password) {
+    return bcrypt.compare(password, this.password_hash)
+  }
+
+  return User
+}
